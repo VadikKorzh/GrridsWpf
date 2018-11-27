@@ -1,0 +1,458 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FascinatedPresume"
+        xmlns:ctrls="clr-namespace:FascinatedPresume.Controls"
+        xmlns:core="clr-namespace:System;assembly=mscorlib"
+        xmlns:selectors="clr-namespace:FascinatedPresume.Selectors"
+        xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts" x:Class="FascinatedPresume.StartWindow"
+        mc:Ignorable="d"
+        Title="StartWindow" Height="450" Width="800">
+    <Window.Resources>
+        <x:Array x:Key="array" Type="{x:Type core:String}">
+            <core:String>Armada</core:String>
+            <core:String>Edkon Games</core:String>
+        </x:Array>
+        <x:Array x:Key="dates" Type="{x:Type core:DateTime}">
+            <core:DateTime>12-11-2008</core:DateTime>
+            <core:DateTime>1-1-2008</core:DateTime>
+            <core:DateTime>2-11-2008</core:DateTime>
+            <core:DateTime>1-23-2008</core:DateTime>
+        </x:Array>
+        <x:Array x:Key="Stats" Type="{x:Type core:Double}">
+            <core:Double>0.8</core:Double>
+            <core:Double>0.15</core:Double>
+            <core:Double>0.</core:Double>
+        </x:Array>
+        <!--<Style TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Ellipse Name="ellipse" Fill="GreenYellow" Width="100" Height="100"/>
+                </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>-->
+
+        <DataTemplate x:Key="listBoxDtTemplate" DataType="{x:Type core:DateTime}">
+            <StackPanel>
+                <TextBlock Text="{Binding Day, StringFormat=Day:\{0\}}"/>
+                <TextBlock Text="{Binding Month, StringFormat=Month:\{0\}}"/>
+                <TextBlock Text="{Binding Year, StringFormat=Year:\{0\}}"/>
+                <Button Content="Show Details" Tag="{Binding}" Click="Button_Click_1"/>
+            </StackPanel>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding Day}" Value="11">
+                    <Setter Property="Control.Foreground" Value="DarkRed"/>
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+        <DataTemplate x:Key="listBoxDtTemplateDefault" DataType="{x:Type core:DateTime}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Day, StringFormat=Day:\{0\}}"/>
+                <TextBlock Text="{Binding Month, StringFormat=Month:\{0\}}"/>
+                <TextBlock Text="{Binding Year, StringFormat=Year:\{0\}}"/>
+                <Button Content="Show Details" Tag="{Binding}" Click="Button_Click_1"/>
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
+
+    <!--<Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition Width="0*"/>
+        </Grid.ColumnDefinitions>
+        <Rectangle Fill="OrangeRed" Grid.Column="0"/>
+        <Rectangle Fill="GreenYellow" Grid.Column="1"/>
+        <Rectangle Fill="DodgerBlue" Grid.Column="2"/>
+    </Grid>-->
+    <Grid DataContext="{StaticResource array}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!--<TextBlock Grid.Column="1"
+                   Tag="{x:Static core:DateTime.Now}"
+                   Text="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Tag,
+                          StringFormat=Tag\={0:g}}"
+                   />-->
+        <!--<Button Grid.Column="1" Content="{x:Static core:DateTime.Now}"
+                ContentTemplate="{StaticResource listBoxDtTemplate}"
+                />-->
+        <!--<ScrollBar Grid.Column="1">
+            <ScrollBar.Template>
+                <ControlTemplate TargetType="ScrollBar">
+                    <Track Name="PART_Track" IsDirectionReversed="True" ViewportSize="0">
+                        <Track.DecreaseRepeatButton>
+                            <RepeatButton Command="ScrollBar.PageUpCommand">
+                            </RepeatButton>
+                        </Track.DecreaseRepeatButton>
+                        <Track.Thumb>
+                            <Thumb >
+                            </Thumb>
+                        </Track.Thumb>
+                        <Track.IncreaseRepeatButton>
+                            <RepeatButton Command="ScrollBar.PageDownCommand">
+                            </RepeatButton>
+                        </Track.IncreaseRepeatButton>
+                    </Track>
+                </ControlTemplate>
+            </ScrollBar.Template>
+        </ScrollBar>-->
+
+        <Button Grid.Column="0"
+                Width="200" Height="50"
+                Padding="10"
+                Click="Button_Click"
+                HorizontalAlignment="Right"
+                Background="LightSlateGray"
+                Content="Button content"
+                >
+            <!--<Button.Style>
+                <Style>
+                    <Style.Triggers>
+    <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="Control.IsMouseOver" Value="True"></Condition>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter Property="Control.Foreground" Value="DarkRed"/>
+                            </MultiTrigger.Setters>
+                            <MultiTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+    Duration="0:0:1"
+    Storyboard.TargetProperty="FontSize" To="22"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.EnterActions>
+                            <MultiTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+    Duration="0:0:1"
+    Storyboard.TargetProperty="FontSize" />             
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.ExitActions>
+                        </MultiTrigger>
+    </Style.Triggers>
+                </Style>
+            </Button.Style>-->
+
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="Border"
+                            Background="Wheat"
+                            BorderBrush="Wheat" BorderThickness="2"
+                            CornerRadius="2"
+                            >
+                        <StackPanel Orientation="Horizontal">
+                            <Ellipse Width="30" Height="30" Fill="{TemplateBinding Background}"
+                                 />
+                            <Grid>
+                                <Rectangle x:Name="frame"
+                                           Stroke="Blue" Visibility="Hidden"
+                                           StrokeThickness="3" StrokeDashArray="1 3"/>
+                                <ContentPresenter RecognizesAccessKey="True"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="Control.Background" Value="Coral"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Border" Property="Control.Background" Value="Red"/>
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="frame" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+            <Button.ContentTemplate>
+                <DataTemplate>
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock x:Name="name" Foreground="White" Text="{Binding}">
+                            <TextBlock.ToolTip>
+                                <ToolTip Content="{Binding}"
+                                    ContentStringFormat="Lalalala {0}"
+                                    />
+                            </TextBlock.ToolTip>
+                        </TextBlock>
+                        <TextBlock Text="{Binding}" />
+                        <TextBlock Text="{Binding}" />
+                    </StackPanel>
+                </DataTemplate>
+            </Button.ContentTemplate>
+        </Button>
+
+        <ListBox Grid.Column="2"
+                     ItemsSource="{StaticResource ResourceKey=dates}"
+                     Width="100"
+                     ScrollViewer.CanContentScroll="True"
+                 >
+            <ListBox.ItemTemplateSelector>
+                <selectors:DateTimeTemplateSelector
+                    HighLightTemplate="{StaticResource listBoxDtTemplate}"
+                    DefaultTemplate="{StaticResource listBoxDtTemplateDefault}"
+                    />
+            </ListBox.ItemTemplateSelector>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="BorderThickness" Value="3"/>
+                    <Setter Property="Background" Value="Tomato" />
+                    <Setter Property="Margin" Value="3"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="Black"/>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="BorderThickness" Value="3"/>
+                            <Setter Property="BorderBrush" Value="Red"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+
+        <StackPanel Grid.Column="1">
+            <dxc:ChartControl HorizontalAlignment="Left"
+                          Margin="0" Padding="0" Height="40"
+                          VerticalAlignment="Top" ToolTipEnabled="True"
+                          >
+                <dxc:ChartControl.Resources>
+                    <Style TargetType="{x:Type dxc:BarFullStackedSeries2D}">
+                        <Setter Property="BarWidth" Value="0.1"/>
+                    </Style>
+                </dxc:ChartControl.Resources>
+
+                <dxc:ChartControl.Legends>
+                    <dxc:Legend Visible="False"/>
+                </dxc:ChartControl.Legends>
+
+                <dxc:XYDiagram2D Rotated="True" DependentAxesYRange="True"
+                             EnableAxisXNavigation="False" BarDistance="0"
+                             EqualBarWidth="False" InvertedStep="False"
+                             PaneOrientation="Horizontal"
+                             EnableAxisYNavigation="False"
+                             Height="40"
+                             DataContext="{DynamicResource Stats}"
+                             >
+                    <dxc:XYDiagram2D.DefaultPane>
+                        <dxc:Pane Name="horizontalChart"
+                              EnableAxisXNavigation="False" EnableAxisYNavigation="False"
+                              />
+                    </dxc:XYDiagram2D.DefaultPane>
+
+                    <dxc:XYDiagram2D.AxisY>
+                        <dxc:AxisY2D Visible="False"  
+                                 GridLinesVisible="False" Interlaced="False"
+                                 >
+                            <dxc:AxisY2D.VisualRange>
+                                <dxc:Range AutoSideMargins="False"
+                                           MaxValue="1" MinValue="0"
+                                           SideMarginsValue="0"/>
+                            </dxc:AxisY2D.VisualRange>
+                        </dxc:AxisY2D>
+                    </dxc:XYDiagram2D.AxisY>
+                    
+                    <dxc:XYDiagram2D.AxisX>
+                        <dxc:AxisX2D Visible="False"
+                                 GridLinesVisible="False" Interlaced="False" LogarithmicBase="10" Reverse="False" TickmarksVisible="False" TickmarksMinorVisible="False" Title="{x:Null}">
+                            <dxc:AxisX2D.VisualRange>
+                                <dxc:Range AutoSideMargins="False"
+                                       MaxValue="1" MinValue="1"
+                                       SideMarginsValue="0.1"/>
+                            </dxc:AxisX2D.VisualRange>
+                            <dxc:AxisX2D.Label>
+                                <dxc:AxisLabel/>
+                            </dxc:AxisX2D.Label>
+                        </dxc:AxisX2D>
+                    </dxc:XYDiagram2D.AxisX>
+
+                    <dxc:BarFullStackedSeries2D DisplayName="Series 1">
+                        <dxc:BarFullStackedSeries2D.Model>
+                            <dxc:BorderlessSimpleBar2DModel/>
+                        </dxc:BarFullStackedSeries2D.Model>
+                        <dxc:SeriesPoint Brush="SteelBlue" 
+                                     Argument="1" Value="500"/>
+                    </dxc:BarFullStackedSeries2D>
+
+                    <dxc:BarFullStackedSeries2D DisplayName="Series 2">
+                        <dxc:BarFullStackedSeries2D.Model>
+                            <dxc:BorderlessSimpleBar2DModel/>
+                        </dxc:BarFullStackedSeries2D.Model>
+                        <dxc:SeriesPoint Brush="IndianRed" 
+                                     Argument="1" Value="200" />
+                    </dxc:BarFullStackedSeries2D>
+
+                    <dxc:BarFullStackedSeries2D DisplayName="Series 3">
+                        <dxc:BarFullStackedSeries2D.Model>
+                            <dxc:BorderlessSimpleBar2DModel/>
+                        </dxc:BarFullStackedSeries2D.Model>
+                        <dxc:SeriesPoint Brush="DimGray"
+                                         Argument="1" Value="50"/>
+                    </dxc:BarFullStackedSeries2D>
+
+                </dxc:XYDiagram2D>
+            </dxc:ChartControl>
+            
+            <dxc:ChartControl Margin="0" Padding="0"
+                              Height="80"
+                              VerticalAlignment="Top" ToolTipEnabled="True"
+                              >
+                <dxc:ChartControl.Resources>
+                    <Style TargetType="{x:Type dxc:BarSideBySideSeries2D}">
+                        <Setter Property="BarWidth" Value="0.5"/>
+                    </Style>
+                </dxc:ChartControl.Resources>
+
+                <dxc:ChartControl.Legends>
+                    <dxc:Legend Visible="False"/>
+                </dxc:ChartControl.Legends>
+
+                <dxc:XYDiagram2D DependentAxesYRange="True"
+                                 EnableAxisXNavigation="False" BarDistance="0"
+                                 EqualBarWidth="False" InvertedStep="False"
+                                 PaneOrientation="Horizontal"
+                                 EnableAxisYNavigation="False" Height="78" VerticalAlignment="Top"
+                             >
+                    <dxc:XYDiagram2D.DefaultPane>
+                        <dxc:Pane Name="verticalChart"
+                              EnableAxisXNavigation="False" EnableAxisYNavigation="False"
+                              />
+                    </dxc:XYDiagram2D.DefaultPane>
+
+                    <dxc:XYDiagram2D.AxisY>
+                        <dxc:AxisY2D Visible="False"  
+                                 GridLinesVisible="False" Interlaced="False"
+                                 >
+                            <dxc:AxisY2D.VisualRange>
+                                <dxc:Range AutoSideMargins="False"
+                                           MaxValue="1" MinValue="0"
+                                           SideMarginsValue="0.1"/>
+                            </dxc:AxisY2D.VisualRange>
+                        </dxc:AxisY2D>
+                    </dxc:XYDiagram2D.AxisY>
+                    
+                    <dxc:XYDiagram2D.AxisX>
+                        <dxc:AxisX2D Visible="False"
+                                     GridLinesVisible="False" Interlaced="False" LogarithmicBase="10" Reverse="False" TickmarksVisible="False" TickmarksMinorVisible="False" Title="{x:Null}" StickToEnd="False">
+                            <dxc:AxisX2D.WholeRange>
+                                <dxc:Range AutoSideMargins="False"
+                                           MaxValue="20" MinValue="0" 
+                                           SideMarginsValue="0"/>
+                            </dxc:AxisX2D.WholeRange>
+                            <dxc:AxisX2D.VisualRange>
+                                <dxc:Range AutoSideMargins="False"
+                                       MaxValue="20" MinValue="0"
+                                       SideMarginsValue="1" />
+                            </dxc:AxisX2D.VisualRange>
+                        </dxc:AxisX2D>
+                    </dxc:XYDiagram2D.AxisX>
+
+                    <dxc:BarSideBySideSeries2D DisplayName="Series 1"
+                                               Brush="SteelBlue">
+                        <dxc:BarSideBySideSeries2D.Model>
+                            <dxc:BorderlessSimpleBar2DModel/>
+                        </dxc:BarSideBySideSeries2D.Model>
+                        <dxc:SeriesPoint Argument="1" Value="500"/>
+                        <dxc:SeriesPoint Argument="2" Value="450"/>
+                        <dxc:SeriesPoint Argument="3" Value="400"/>
+                        <dxc:SeriesPoint Argument="4" Value="350"/>
+                        <dxc:SeriesPoint Argument="5" Value="200"/>
+                        <dxc:SeriesPoint Argument="6" Value="200"/>
+                        <dxc:SeriesPoint Argument="7" Value="200"/>
+                        <dxc:SeriesPoint Argument="8" Value="150"/>
+                        <dxc:SeriesPoint Argument="9" Value="120"/>
+                        <dxc:SeriesPoint Argument="10" Value="120"/>
+                        <dxc:SeriesPoint Argument="11" Value="100"/>
+                        <dxc:SeriesPoint Argument="12" Value="100"/>
+                        <dxc:SeriesPoint Argument="13" Value="90"/>
+                        <dxc:SeriesPoint Argument="14" Value="90"/>
+                        <dxc:SeriesPoint Argument="15" Value="85"/>
+                        <dxc:SeriesPoint Argument="16" Value="85"/>
+                        <dxc:SeriesPoint Argument="17" Value="30"/>
+                        <dxc:SeriesPoint Argument="18" Value="10"/>
+                    </dxc:BarSideBySideSeries2D>
+                </dxc:XYDiagram2D>
+            </dxc:ChartControl>
+        </StackPanel>
+
+        <!--<dxc:ChartControl Grid.Column="1"
+                          HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" Palette="{x:Null}" FontStyle="Normal"
+                          >
+            <dxc:ChartControl.Titles>
+                <dxc:Title HorizontalAlignment="Center"
+                           Content="sdfsdf"/>
+            </dxc:ChartControl.Titles>
+            <dxc:ChartControl.Legends>
+                <dxc:Legend/>
+            </dxc:ChartControl.Legends>
+            <dxc:ChartControl.CrosshairOptions>
+                <dxc:CrosshairOptions ShowArgumentLabels="True"></dxc:CrosshairOptions>
+            </dxc:ChartControl.CrosshairOptions>
+            <dxc:XYDiagram2D>
+                <dxc:BarSideBySideSeries2D DisplayName="Words A" Visible="True">
+                    <dxc:BarSideBySideSeries2D.Model>
+                        <dxc:BorderlessGradientBar2DModel/>
+                    </dxc:BarSideBySideSeries2D.Model>
+                    <dxc:SeriesPoint Argument="Vadik" Value="43"/>
+                    <dxc:SeriesPoint Argument="c" Value="53"/>
+                    <dxc:SeriesPoint Argument="r" Value="33"/>
+                    <dxc:SeriesPoint Argument="a" Value="1"/>
+                </dxc:BarSideBySideSeries2D>
+                
+            </dxc:XYDiagram2D>
+        </dxc:ChartControl>-->
+        <!--<ctrls:ButtonyControl />-->
+
+
+        <!--<ScrollViewer Grid.Column="1"
+                      >
+            <ScrollViewer.Template>
+                <ControlTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Height="400">TextTextText</TextBlock>
+                        <ScrollBar Height="400">
+                            <ScrollBar.Template>
+                                <ControlTemplate>
+                                    <Track Name="PART_Track" Grid.Row="1" Width="100"
+IsDirectionReversed="True" ViewportSize="0">
+                                        -->
+        <!--<Track.DecreaseRepeatButton>
+                                            <RepeatButton Command="ScrollBar.PageUpCommand">
+                                            </RepeatButton>
+                                        </Track.DecreaseRepeatButton>-->
+        <!--
+                                        <Track.Thumb>
+                                            <Thumb Width="100" Height="30" Background="Blue"> 
+                                            </Thumb>
+                                        </Track.Thumb>
+                                        <Track.IncreaseRepeatButton>
+                                            <RepeatButton Command="ScrollBar.PageDownCommand">
+                                            </RepeatButton>
+                                        </Track.IncreaseRepeatButton>
+                                    </Track>
+                                </ControlTemplate>
+                            </ScrollBar.Template>
+                        </ScrollBar>
+                    </StackPanel>
+                </ControlTemplate>
+            </ScrollViewer.Template>
+        </ScrollViewer>-->
+
+    </Grid>
+</Window>

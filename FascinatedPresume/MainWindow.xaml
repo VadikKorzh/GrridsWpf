@@ -1,12 +1,352 @@
-﻿<Window x:Class="FascinatedPresume.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FascinatedPresume"
+        xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" x:Class="FascinatedPresume.MainWindow"
+        xmlns:core="clr-namespace:System;assembly=mscorlib"
+        xmlns:coll="clr-namespace:System.Collections;assembly=mscorlib"
+        xmlns:ctrls="clr-namespace:FascinatedPresume.Controls"
+        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+        xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
+        xmlns:dxgt="http://schemas.devexpress.com/winfx/2008/xaml/grid/themekeys"
+        xmlns:entities="clr-namespace:FascinatedPresume.Entities"
+        dx:ThemeManager.ThemeName="Office2016White"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="450" Width="800"
+    >
+    <Window.Resources>
         
+    </Window.Resources>
+
+    <Grid>
+        <Grid.Resources>
+
+            <coll:ArrayList x:Key="stats">
+                <entities:SimpleStats Stats="1" Value="200"/>
+                <entities:SimpleStats Stats="1" Value="100"/>
+                <entities:SimpleStats Stats="1" Value="20"/>
+            </coll:ArrayList>
+            
+            <ControlTemplate x:Key="{dxgt:GridColumnHeaderThemeKey ResourceKey=ColumnFilterTemplate, IsThemeIndependent=True}">
+            </ControlTemplate>
+
+            <core:Double x:Key="{dxgt:GridColumnHeaderThemeKey ResourceKey=SortIndicatorWidth, IsThemeIndependent=True}">
+                0
+            </core:Double>
+
+            <Thickness x:Key="{dxgt:GridColumnHeaderThemeKey ResourceKey=SortIndicatorUpMargin, IsThemeIndependent=True}">
+                <Thickness.Bottom>0</Thickness.Bottom>
+                <Thickness.Top>0</Thickness.Top>
+            </Thickness>
+
+            <Thickness x:Key="{dxgt:GridColumnHeaderThemeKey ResourceKey=SortIndicatorDownMargin, IsThemeIndependent=True}">
+                <Thickness.Bottom>0</Thickness.Bottom>
+                <Thickness.Top>0</Thickness.Top>
+            </Thickness>
+        </Grid.Resources>
+
+        <dxg:GridControl x:Name="testGridControl"
+                         AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True"
+                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                         >
+            <dxg:GridControl.View>
+                <dxg:TableView AllowPerPixelScrolling="True"
+                               ShowTotalSummary="False" ShowGroupPanel="False"
+                               >
+                    <dxg:TableView.ColumnHeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="*" MinWidth="50"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+
+                                <Button Grid.Column="0" Name="typeButton"
+                                        Click="TypeButton_Click">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border BorderThickness="0" BorderBrush="Transparent">
+                                                <ContentPresenter></ContentPresenter>
+                                            </Border>
+                                        </ControlTemplate>
+
+                                    </Button.Template>
+                                    <Button.ContentTemplate>
+                                        <DataTemplate>
+                                            <Image Source="/Resources/Images/numeric16.png"
+                                                   VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                   Stretch="Uniform" Height="16" Width="16"
+                                                   />
+                                        </DataTemplate>
+                                    </Button.ContentTemplate>
+                                </Button>
+
+                                <Popup Name="typePopup" Placement="Bottom" PlacementTarget="{Binding ElementName=typeButton}"
+                                       StaysOpen="False"
+                                       >
+                                    <ListBox>
+                                        <ListBoxItem>
+                                            <StackPanel Width="100" Height="20" Orientation="Horizontal">
+                                                <Image Source="/Resources/Images/string16.png"
+                                                       Width="16" Height="16"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                       />
+                                                <TextBlock Text="String" Margin="10 0 0 0"
+                                                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                                           />
+                                            </StackPanel>
+                                        </ListBoxItem>
+                                        <ListBoxItem>
+                                            <StackPanel Width="100" Height="20" Orientation="Horizontal">
+                                                <Image Source="/Resources/Images/numeric16.png"
+                                                       Width="16" Height="16"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                       />
+                                                <TextBlock Text="Numeric" Margin="10 0 0 0"
+                                                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                                           />
+                                            </StackPanel>
+                                        </ListBoxItem>
+                                        <ListBoxItem>
+                                            <StackPanel Width="100" Height="20" Orientation="Horizontal">
+                                                <Image Source="/Resources/Images/boolean16.png"
+                                                       Width="16" Height="16"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                       />
+                                                <TextBlock Text="Boolean" Margin="10 0 0 0"
+                                                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                                           />
+                                            </StackPanel>
+                                        </ListBoxItem>
+                                    </ListBox>
+                                </Popup>
+                                
+                                <TextBlock Grid.Column="1"
+                                           Text="{Binding}"
+                                           VerticalAlignment="Center" HorizontalAlignment="Center"
+                                           FontFamily="Segoe UI" FontSize="12" FontWeight="SemiBold"
+                                           
+                                           />
+
+                                <Button Grid.Column="2" Name="menuButton"
+                                        Click="ColumnMenuButton_Click">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border BorderThickness="0" BorderBrush="Transparent">
+                                                <ContentPresenter></ContentPresenter>
+                                            </Border>
+                                        </ControlTemplate>
+                                    
+                                    </Button.Template>
+                                    <Button.ContentTemplate>
+                                        <DataTemplate>
+                                            <Image Source="/Resources/Images/arrow.png"
+                                                   VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                   Stretch="Uniform" Height="16" Width="16"
+                                                   />
+                                        </DataTemplate>
+                                    </Button.ContentTemplate>
+                                </Button>
+
+                                <Popup Name="menuPopup" Placement="Bottom" PlacementTarget="{Binding ElementName=menuButton}"
+                                       StaysOpen="False"
+                                       >
+                                    <ListBox SelectionChanged="ListBox_SelectionChanged">
+                                        <ListBoxItem>Sort</ListBoxItem>
+                                        <ListBoxItem>Filter</ListBoxItem>
+                                        <ListBoxItem>Other</ListBoxItem>
+                                    </ListBox>
+                                </Popup>
+                                
+                                <StackPanel Grid.Row="1" Grid.ColumnSpan="3" Margin="0 5 0 0">
+                                    <dxc:ChartControl HorizontalAlignment="Left"
+                                                      Margin="0" Padding="0" Height="40"
+                                                      VerticalAlignment="Top" ToolTipEnabled="True"
+                                                      DataSource="{StaticResource stats}"
+                                                      >         
+                                        <dxc:ChartControl.Resources>
+                                            <Style TargetType="{x:Type dxc:BarFullStackedSeries2D}">
+                                                <Setter Property="BarWidth" Value="0.1"/>
+                                            </Style>
+                                        </dxc:ChartControl.Resources>
+
+                                        <dxc:ChartControl.Legends>
+                                            <dxc:Legend Visible="False"/>
+                                        </dxc:ChartControl.Legends>
+
+                                        <dxc:XYDiagram2D Rotated="True" DependentAxesYRange="True"
+                                                         EnableAxisXNavigation="False" BarDistance="0"
+                                                         EqualBarWidth="False" InvertedStep="False"
+                                                         PaneOrientation="Horizontal"
+                                                         EnableAxisYNavigation="False"
+                                                         Height="40"
+                                                         >          
+                                            <dxc:XYDiagram2D.DefaultPane>
+                                                <dxc:Pane Name="horizontalChart"
+                                                          EnableAxisXNavigation="False" EnableAxisYNavigation="False"
+                                                          />            
+                                            </dxc:XYDiagram2D.DefaultPane>
+
+                                            <dxc:XYDiagram2D.AxisY>
+                                                <dxc:AxisY2D Visible="False"  
+                                                             GridLinesVisible="False" Interlaced="False"
+                                                             >                      
+                                                    <dxc:AxisY2D.VisualRange>
+                                                        <dxc:Range AutoSideMargins="False"
+                                                                   MaxValue="1" MinValue="0"
+                                                                   SideMarginsValue="0"/>
+                                                    </dxc:AxisY2D.VisualRange>
+                                                </dxc:AxisY2D>
+                                            </dxc:XYDiagram2D.AxisY>
+
+                                            <dxc:XYDiagram2D.AxisX>
+                                                <dxc:AxisX2D Visible="False"
+                                                             GridLinesVisible="False" Interlaced="False"
+                                                             LogarithmicBase="10" Reverse="False"
+                                                             TickmarksVisible="False" TickmarksMinorVisible="False"
+                                                             Title="{x:Null}">
+                                                    <dxc:AxisX2D.VisualRange>
+                                                        <dxc:Range AutoSideMargins="False"
+                                                                   MaxValue="1" MinValue="1"
+                                                                   SideMarginsValue="0.1"/>
+                                                    </dxc:AxisX2D.VisualRange>
+                                                    <dxc:AxisX2D.Label>
+                                                        <dxc:AxisLabel/>
+                                                    </dxc:AxisX2D.Label>
+                                                </dxc:AxisX2D>
+                                            </dxc:XYDiagram2D.AxisX>
+
+                                            <dxc:BarFullStackedSeries2D DisplayName="Series 1"
+                                                                        ValueDataMember=""
+                                                                        >
+                                                
+                                                <dxc:BarFullStackedSeries2D.Model>
+                                                    <dxc:BorderlessSimpleBar2DModel/>
+                                                </dxc:BarFullStackedSeries2D.Model>
+                                                <dxc:SeriesPoint Brush="SteelBlue" 
+                                                                 Argument="1" Value="500"/>
+                                            </dxc:BarFullStackedSeries2D>
+
+                                            <dxc:BarFullStackedSeries2D DisplayName="Series 2">
+                                                <dxc:BarFullStackedSeries2D.Model>
+                                                    <dxc:BorderlessSimpleBar2DModel/>
+                                                </dxc:BarFullStackedSeries2D.Model>
+                                                <dxc:SeriesPoint Brush="IndianRed" 
+                                                                 Argument="1" Value="200" />
+                                            </dxc:BarFullStackedSeries2D>
+
+                                            <dxc:BarFullStackedSeries2D DisplayName="Series 3">
+                                                <dxc:BarFullStackedSeries2D.Model>
+                                                    <dxc:BorderlessSimpleBar2DModel/>
+                                                </dxc:BarFullStackedSeries2D.Model>
+                                                <dxc:SeriesPoint Brush="DimGray"
+                                                                 Argument="1" Value="50"/>
+                                            </dxc:BarFullStackedSeries2D>
+
+                                        </dxc:XYDiagram2D>
+                                    </dxc:ChartControl>
+
+                                    <dxc:ChartControl Margin="0" Padding="0"
+                              Height="80"
+                              VerticalAlignment="Top" ToolTipEnabled="True"
+                              >
+                                        <dxc:ChartControl.Resources>
+                                            <Style TargetType="{x:Type dxc:BarSideBySideSeries2D}">
+                                                <Setter Property="BarWidth" Value="0.5"/>
+                                            </Style>
+                                        </dxc:ChartControl.Resources>
+
+                                        <dxc:ChartControl.Legends>
+                                            <dxc:Legend Visible="False"/>
+                                        </dxc:ChartControl.Legends>
+
+                                        <dxc:XYDiagram2D DependentAxesYRange="True"
+                                 EnableAxisXNavigation="False" BarDistance="0"
+                                 EqualBarWidth="False" InvertedStep="False"
+                                 PaneOrientation="Horizontal"
+                                 EnableAxisYNavigation="False" Height="78" VerticalAlignment="Top"
+                             >
+                                            <dxc:XYDiagram2D.DefaultPane>
+                                                <dxc:Pane Name="verticalChart"
+                              EnableAxisXNavigation="False" EnableAxisYNavigation="False"
+                              />
+                                            </dxc:XYDiagram2D.DefaultPane>
+
+                                            <dxc:XYDiagram2D.AxisY>
+                                                <dxc:AxisY2D Visible="False"  
+                                 GridLinesVisible="False" Interlaced="False"
+                                 >
+                                                    <dxc:AxisY2D.VisualRange>
+                                                        <dxc:Range AutoSideMargins="False"
+                                           MaxValue="1" MinValue="0"
+                                           SideMarginsValue="0.1"/>
+                                                    </dxc:AxisY2D.VisualRange>
+                                                </dxc:AxisY2D>
+                                            </dxc:XYDiagram2D.AxisY>
+
+                                            <dxc:XYDiagram2D.AxisX>
+                                                <dxc:AxisX2D Visible="False"
+                                     GridLinesVisible="False" Interlaced="False" LogarithmicBase="10" Reverse="False" TickmarksVisible="False" TickmarksMinorVisible="False" Title="{x:Null}" StickToEnd="False">
+                                                    <dxc:AxisX2D.WholeRange>
+                                                        <dxc:Range AutoSideMargins="False"
+                                           MaxValue="20" MinValue="0" 
+                                           SideMarginsValue="0"/>
+                                                    </dxc:AxisX2D.WholeRange>
+                                                    <dxc:AxisX2D.VisualRange>
+                                                        <dxc:Range AutoSideMargins="False"
+                                       MaxValue="20" MinValue="0"
+                                       SideMarginsValue="1" />
+                                                    </dxc:AxisX2D.VisualRange>
+                                                </dxc:AxisX2D>
+                                            </dxc:XYDiagram2D.AxisX>
+
+                                            <dxc:BarSideBySideSeries2D DisplayName="Series 1"
+                                               Brush="SteelBlue">
+                                                <dxc:BarSideBySideSeries2D.Model>
+                                                    <dxc:BorderlessSimpleBar2DModel/>
+                                                </dxc:BarSideBySideSeries2D.Model>
+                                                <dxc:SeriesPoint Argument="1" Value="500"/>
+                                                <dxc:SeriesPoint Argument="2" Value="450"/>
+                                                <dxc:SeriesPoint Argument="3" Value="400"/>
+                                                <dxc:SeriesPoint Argument="4" Value="350"/>
+                                                <dxc:SeriesPoint Argument="5" Value="200"/>
+                                                <dxc:SeriesPoint Argument="6" Value="200"/>
+                                                <dxc:SeriesPoint Argument="7" Value="200"/>
+                                                <dxc:SeriesPoint Argument="8" Value="150"/>
+                                                <dxc:SeriesPoint Argument="9" Value="120"/>
+                                                <dxc:SeriesPoint Argument="10" Value="120"/>
+                                                <dxc:SeriesPoint Argument="11" Value="100"/>
+                                                <dxc:SeriesPoint Argument="12" Value="100"/>
+                                                <dxc:SeriesPoint Argument="13" Value="90"/>
+                                                <dxc:SeriesPoint Argument="14" Value="90"/>
+                                                <dxc:SeriesPoint Argument="15" Value="85"/>
+                                                <dxc:SeriesPoint Argument="16" Value="85"/>
+                                                <dxc:SeriesPoint Argument="17" Value="30"/>
+                                                <dxc:SeriesPoint Argument="18" Value="10"/>
+                                            </dxc:BarSideBySideSeries2D>
+                                        </dxc:XYDiagram2D>
+                                    </dxc:ChartControl>
+                                </StackPanel>
+                                
+                            </Grid>
+                        </DataTemplate>
+                    </dxg:TableView.ColumnHeaderTemplate>
+
+                    <!--<dxg:TableView.ColumnHeaderToolTipTemplate>
+                        <DataTemplate>
+                            <TextBlock FontSize="30" Text="{Binding TemplatedParent.DataContext.HeaderCaption, RelativeSource={RelativeSource TemplatedParent}}"/>
+                        </DataTemplate>
+                    </dxg:TableView.ColumnHeaderToolTipTemplate>-->
+
+                </dxg:TableView>
+            </dxg:GridControl.View>
+        </dxg:GridControl>
     </Grid>
 </Window>
